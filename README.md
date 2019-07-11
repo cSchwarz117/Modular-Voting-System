@@ -5,5 +5,11 @@ An open source modular voting system
 Cole  
 Will Regan  
 
+## License  
+GNU 3.0 Public License  
+
+
+
+
 
 
