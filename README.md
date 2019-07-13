@@ -8,13 +8,10 @@ Will Regan
 
 
 ## Project description
-Modular-Voting-System (MVS) is a web app that implements an open source voting platform. This platform will offer features that help users create open and closed elections. We believe in the importance of having access to the machines and software that power our elections along with providing security to protect those votes.
 
-This system will be created using modular approach so that additional features such as voter authentication and special election features may be added in the future. The app will be written in python  and use the Django web framework. 
+Modular-Voting-System (MVS) is a web app that implements an open source voting platform. This platform will offer features that help users create open and closed elections. The system will allow admins to create elections using a suite of custom and pre-made components. The app will be written in python and use the Django web framework. 
 
-
-
-
+These components will allow the admin to modularize the development of this voting system, mix and match components, and create a flexible system. This app will help serve a larger variation of elections than most current election systems are equipped to handle, with components tackling issues like security and vote format.
 
 
 ## Build Instructions/Requirements
