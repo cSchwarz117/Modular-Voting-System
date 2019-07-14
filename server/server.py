@@ -54,19 +54,19 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             data = conn.recv(1024)
             if not data:
                 break
-			dict = pickle.load(data)
-			pswd = dict["password"]
-			usr = dict["username"]
-			if usr in dict.keys(): 
-				if pswd == dict[usr]
-					if usr in admin:
-						conn.sendall(adminopts)
-						break
-					else:
-						conn.sendall(voteropts)
-						break
-				else:
-					conn.sendall(incorrectpass)
-			else:
-				conn.sendall(incorrectuser)
-		
+            dict = pickle.loads(data)
+            pswd = dict["password"]
+            usr = dict["username"]
+            if usr in dict.keys():
+                if pswd == dict[usr]:
+                    if usr in admins:
+                        conn.sendall(adminopts)
+                        break
+                    else:
+                        conn.sendall(voteropts)
+                        break
+                else:
+                    conn.sendall(incorrectpass)
+            else:
+                conn.sendall(incorrectuser)
+            conn.sendall(data)
