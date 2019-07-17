@@ -7,11 +7,11 @@ HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
 PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
 users = {
     "Jane": "123",
-    "Joe" : "abc" ,
-    "Fred" : "spacepirate",
-    "Anne" : "netflix"
+    "Joe": "abc",
+    "Fred": "spacepirate",
+    "Anne": "netflix"
     }
-	
+
 admins = []
 voters = []
 
@@ -57,16 +57,26 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             dict = pickle.loads(data)
             pswd = dict["password"]
             usr = dict["username"]
-            if usr in dict.keys():
-                if pswd == dict[usr]:
+            ret = {}
+            if usr in users.keys():
+                if pswd == users[usr]:
                     if usr in admins:
-                        conn.sendall(adminopts)
-                        break
+                        ret = adminopts
                     else:
-                        conn.sendall(voteropts)
-                        break
+                        ret = voteropts
+                    out = pickle.dumps(ret)
+                    conn.sendall(out)
+                    break
                 else:
-                    conn.sendall(incorrectpass)
+                    ret = incorrectpass
             else:
-                conn.sendall(incorrectuser)
-            conn.sendall(data)
+                ret = incorrectuser
+            out = pickle.dumps(ret)
+            conn.sendall(out)
+        while True:
+            data = conn.recv(1024)
+            if not data:
+                break
+            dict = pickle.loads(data)
+            #not sure what to do here
+            print(dict)
