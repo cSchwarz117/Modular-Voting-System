@@ -20,6 +20,7 @@ class parser(message):
 
 
     def choice(self, data):
+
         print('here')
 
     def date(self, data):
