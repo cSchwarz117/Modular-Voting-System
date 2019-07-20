@@ -9,9 +9,10 @@ class server_data(object):
     global incorrectuser
     global incorrectpass
     global once
+    once = None
     def __init__(self):
         global once
-        if once == 1:
+        if once is not None:
             return None
         once = 1
         global users
@@ -57,8 +58,7 @@ class server_data(object):
         global incorrectuser
         incorrectuser = {
             "Instructions": "Username Incorrect",
-            "type": "UsernameFail",
-
+            "type": "UsernameFail",}
         return None
 
     @staticmethod
@@ -87,4 +87,13 @@ class server_data(object):
         global incorrectuser
         return incorrectuser
 
-}
+    @staticmethod
+    def get_voteropts():
+        global voteropts
+        return voteropts
+
+    @staticmethod
+    def get_adminopts():
+        global adminopts
+        return adminopts
+
