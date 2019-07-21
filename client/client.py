@@ -11,7 +11,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     terminal = menu_interface(s)
     terminal.menuLoop()
 
-    data = s.recv(1024)
+#    data = s.recv(1024)
 
-print('Recieved', repr(data))
+#print('Recieved', repr(data))
 

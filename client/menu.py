@@ -1,4 +1,4 @@
-from messanger import message
+from messenger import message
 from dataParse import parser
 
 
@@ -27,12 +27,16 @@ class menu_interface(message, parser):
             exit(0)
 
     def menuLoop(self):
-        opt = self.logIn()
+        opt = False
+        while opt is False:
+            opt = self.logIn()
         while True:
             inp = self.typeCheck(opt)
             self.send(inp)
+            print(inp)
 #            print("here1")
             opt = self.recv()
+            print(opt)
 
 
 

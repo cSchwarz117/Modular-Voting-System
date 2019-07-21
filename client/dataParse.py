@@ -31,14 +31,19 @@ class parser():
     def date(self, data):
         print(data['Instructions'])
         select = input()
-        cred = {"ans": select}
-        return cred
+        ans = {"ans": select}
+        return ans
 
     def char25(self, data):
         print(data['Instructions'])
+        select = input()
+        ans = {"ans": select}
+        return ans
 
     def pFail(self, data):
         print(data['Instructions'])
+        return False
 
     def uFail(self, data):
         print(data['Instructions'])
+        return False
