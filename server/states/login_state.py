@@ -40,8 +40,8 @@ class login_state(server_state):
     def execute(self, data, election, user):
         if self.admin:
             return adminOptions()
-        if self.voter:
-            return startBallot()
+#        if self.voter:
+#            return startBallot()
         else:
             return None
 

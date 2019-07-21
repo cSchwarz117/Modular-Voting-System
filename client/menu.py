@@ -1,7 +1,8 @@
 from messanger import message
+from dataParse import parser
 
 
-class menu_interface(message):
+class menu_interface(message, parser):
 
     def __init__(self, sock):
         self.sock = sock
@@ -20,10 +21,18 @@ class menu_interface(message):
             cred = {"username": usr, "password": pwd}
             self.send(cred)
             inst = self.recv()
-#            print(inst)
-
+            return inst
 
         if user_input == "2":
             exit(0)
- #       else:
- #           print("Invalid Input!")
+
+    def menuLoop(self):
+        opt = self.logIn()
+        while True:
+            inp = self.typeCheck(opt)
+            self.send(inp)
+#            print("here1")
+            opt = self.recv()
+
+
+
