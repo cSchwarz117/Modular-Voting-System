@@ -24,7 +24,7 @@ class createElection(server_state):
         return None
 
     def process(self, data, elec, user):
-        dict = pickle.loads(data)
+        dict = data
         ans = dict["ans"]
         elec = election()
         elec.name = ans

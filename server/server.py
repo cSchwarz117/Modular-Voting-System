@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
-
+import sys
+sys.path.append("..")
 import socket
-import states
 from server_fsm import server_fsm
+#import states
 from states.login_state import login_state
 from server_data import server_data
 import pickle
-
+from messageInstance import instance
 HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
 PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
+
+
+
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
     s.listen()
     conn, addr = s.accept()
+    instance(conn)
     fsm = server_fsm()
     curState = login_state()
     elec = None
@@ -21,7 +26,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     server_data()
     with conn:
         print('Connected by', addr)
-        data = conn.recv(1024)
+        data = instance.rec()
         if not data:
             print("something went wrong")
             exit(1)
@@ -34,11 +39,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 curState = s
                 curState.enter(data, conn, elec, usr)
 
-            data = conn.recv(1024)
+            data = instance.rec()
             if not data:
                 print("something went wrong")
                 exit(1)
-
 
 
 

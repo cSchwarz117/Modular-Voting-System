@@ -28,7 +28,7 @@ class adminOptions(server_state):
         return None
 
     def process(self, data, election, user):
-        dict = pickle.loads(data)
+        dict = data
         ans = dict["ans"]
         if ans == "1":
             self.create_election = True

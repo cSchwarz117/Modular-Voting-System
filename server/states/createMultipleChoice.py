@@ -24,7 +24,7 @@ class createMultipleChoice(server_state):
         return None
 
     def process(self, data, elec, user):
-        q = pickle.loads(data)
+        q = data
 
         if self.vAction.instructions is None:
             self.vAction.instructions = q["ans"]

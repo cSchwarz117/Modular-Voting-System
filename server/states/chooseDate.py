@@ -6,7 +6,7 @@ import datetime
 sys.path.append("..")
 from server_data import server_data
 import pickle
-
+from messageInstance import instance
 
 class chooseDate(server_state):
 
@@ -24,12 +24,13 @@ class chooseDate(server_state):
         ret = self.instruction.copy()
         ret["Instructions"].replace("<replace>", elec.name)
         self.conn = conn
-        out = pickle.dumps(ret)
-        self.conn.sendall(out)
+        instance.send(ret)
+        #out = pickle.dumps(ret)
+        #self.conn.sendall(out)
         return None
 
     def process(self, data, elec, user):
-        dict = pickle.loads(data)
+        dict = data
         ans = dict["ans"]
         #validate date
         elec.date = ans

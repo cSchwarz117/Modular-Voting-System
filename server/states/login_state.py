@@ -20,7 +20,7 @@ class login_state(server_state):
         return None
 
     def process(self, data, election, user):
-        dict = pickle.loads(data)
+        dict = data
         pswd = dict["password"]
         usr = dict["username"]
         users = server_data.get_users()

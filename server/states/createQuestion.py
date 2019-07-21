@@ -46,7 +46,7 @@ class createQuestion(server_state):
         return None
 
     def process(self, data, elec, user):
-        dict = pickle.loads(data)
+        dict = data
         ans = dict["ans"]
         if ans == "2":
             self.createRankedChoice = True
