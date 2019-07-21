@@ -1,4 +1,5 @@
-class voteAction(server_state):
+
+class voteAction(object):
     def __init__(self):
         self.multipleChoice = False
         self.rank = False

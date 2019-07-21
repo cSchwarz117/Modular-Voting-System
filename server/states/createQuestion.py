@@ -1,4 +1,9 @@
-from server_state import server_state
+from states.server_state import server_state
+from states.createMultipleChoice import createMultipleChoice
+from states.createRankedChoice import createRankedChoice
+from states.createChoiceW import createChoiceW
+import states
+import states.createMultipleChoice
 from election import election
 import sys
 
@@ -12,8 +17,9 @@ class createQuestion(server_state):
     def __init__(self):
         self.ret = {}
         self.conn = None
-        self.chooseStart = False
-        self.immediately = False
+        self.createMultipleChoice = False
+        self.createRankedChoice = False
+        self.createChoiceW = False
         self.instruction = {
             "Instructions": "It looks like your <replace> election has <blank> questions and starts <date>: Would you like to add another question?",
             "type": "MultipleChoice",
@@ -22,33 +28,42 @@ class createQuestion(server_state):
             "3": "Yes, let's add multiple choice with write in option",
             "4": "I'm finished"}
 
-    def enter(self, conn, elec, user):
+    def enter(self, data, conn, elec, user):
         ret = self.instruction.copy()
-        ret["Instructions"].replace("<replace>", elec.name)
-        ret["Instructions"].replace("<blank>", "%d" % len(elec.voteActions))
-        if elec.date != None:
-            ret["Instructions"].replace("<date>", elec.date.strftime("on %Y-%m-%d %H:%M"))
+        numQs = len(elec.voteActions)
+        numQsStr = "%d"%numQs
+
+        ret["Instructions"] = ret["Instructions"].replace("<replace>", elec.name)
+        ret["Instructions"] = ret["Instructions"].replace("<blank>", numQsStr)
+        if elec.start is None:
+            start = "Immediately"
         else:
-            ret["Instructions"].replace("<date>", elec.date.strftime("immediately"))
+            start = elec.date.strftime("on %Y-%m-%d %H:%M")
+        ret["Instructions"] = ret["Instructions"].replace("<date>", start)
         self.conn = conn
+        out = pickle.dumps(ret)
+        self.conn.sendall(out)
         return None
 
     def process(self, data, elec, user):
         dict = pickle.loads(data)
         ans = dict["ans"]
         if ans == "2":
-            self.chooseStart = True
+            self.createRankedChoice = True
         if ans == "1":
-            self.immediately = True
+            self.createMultipleChoice = True
+        if ans == "3":
+            self.createChoiceW = True
         return (elec, user)
 
     def execute(self, data, election, user):
-        if self.chooseStart:
-
-        return True
+        if self.createRankedChoice:
+            return createRankedChoice()
+        if self.createMultipleChoice:
+            return states.createMultipleChoice.createMultipleChoice()
+        if self.createChoiceW:
+            return createChoiceW()
+        return None
 
     def exit(self, data, election, user):
-        out = pickle.dumps(self.u)
-        self.conn.sendall(out)
-        self.conn = None
         return None

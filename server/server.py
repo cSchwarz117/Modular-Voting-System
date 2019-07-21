@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import socket
+import states
 from server_fsm import server_fsm
 from states.login_state import login_state
 from server_data import server_data
@@ -26,7 +27,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             exit(1)
         curState.enter(data, conn, elec, usr)
         while True:
-            curState.process(data, elec, usr)
+            elec, usr = curState.process(data, elec, usr)
             s = curState.execute(data, elec, usr)
             if s is not None:
                 curState.exit(data, elec, usr)

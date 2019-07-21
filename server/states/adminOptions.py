@@ -1,7 +1,9 @@
 from states.server_state import server_state
+
+from server_data import server_data
+from states.createElection import createElection
 import sys
 sys.path.append("..")
-from server_data import server_data
 import pickle
 
 class adminOptions(server_state):
@@ -20,7 +22,7 @@ class adminOptions(server_state):
         self.conn = conn
         out = pickle.dumps(self.adminOpts)
         self.conn.sendall(out)
-        self.createElection = False
+        self.create_election = False
         self.editElection = False
         self.viewResults = False
         return None
@@ -29,7 +31,7 @@ class adminOptions(server_state):
         dict = pickle.loads(data)
         ans = dict["ans"]
         if ans == "1":
-            self.createElection = True
+            self.create_election = True
         if ans == "2":
             self.editElection = True
         if ans == "3":
@@ -39,13 +41,10 @@ class adminOptions(server_state):
         return (election, user)
 
     def execute(self, data, election, user):
-        if self.createElection:
-            return None
+        if self.create_election:
+            return createElection()
         else:
-            return True
+            return None
 
     def exit(self, data, election, user):
-        out = pickle.dumps(self.u)
-        self.conn.sendall(out)
-        self.conn = None
         return None

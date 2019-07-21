@@ -1,9 +1,12 @@
-from server_state import server_state
+from states.server_state import server_state
 from election import election
 import sys
 
 sys.path.append("..")
 from server_data import server_data
+from states.chooseDate import chooseDate
+from states.createQuestion import createQuestion
+
 import pickle
 
 
@@ -20,9 +23,9 @@ class createDate(server_state):
             "1": "Immediately",
             "2": "Choose Date"}
 
-    def enter(self, conn, elec, user):
+    def enter(self, data, conn, elec, user):
         ret = self.instruction.copy()
-        ret["Instructions"].replace("<replace>", elec.name)
+        ret["Instructions"] = ret["Instructions"].replace("<replace>", elec.name)
         self.conn = conn
         out = pickle.dumps(ret)
         self.conn.sendall(out)
@@ -37,13 +40,12 @@ class createDate(server_state):
             self.immediately = True
         return (elec, user)
 
-    def execute(self, data, election, user):
+    def execute(self, data, elec, user):
         if self.chooseStart:
-
+            return chooseDate()
+        if self.immediately:
+            return createQuestion()
         return True
 
     def exit(self, data, election, user):
-        out = pickle.dumps(self.u)
-        self.conn.sendall(out)
-        self.conn = None
         return None

@@ -1,4 +1,4 @@
-from server_state import server_state
+from states.server_state import server_state
 from election import election
 import sys
 import datetime
@@ -8,7 +8,7 @@ from server_data import server_data
 import pickle
 
 
-class createDate(server_state):
+class chooseDate(server_state):
 
     def __init__(self):
         self.ret = {}
@@ -20,7 +20,7 @@ class createDate(server_state):
             "Instructions": "Please pick a date for the <replace> election to start",
             "type": "date",}
 
-    def enter(self, conn, elec, user):
+    def enter(self, data, conn, elec, user):
         ret = self.instruction.copy()
         ret["Instructions"].replace("<replace>", elec.name)
         self.conn = conn
