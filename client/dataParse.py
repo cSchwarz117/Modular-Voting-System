@@ -12,11 +12,25 @@ class parser():
             return self.pFail(data)
         if data['type'] == 'UsernameFail':
             return self.uFail(data)
+        if data['type'] == 'StrArray':
+            return self.StrArray(data)
         else:
             print('Data Type error')
             return
 
         return
+
+    def StrArray(self, data):
+        print(data['Instructions'])
+        x = input('How many options do you want?')
+        cred = {}
+        for i in range(int(x)):
+            cred[i] = input("Option: ")
+        return cred
+
+    def date(self, data):
+        
+
 
     def choice(self, data):
         del data['type']
