@@ -1,9 +1,14 @@
 from states.server_state import server_state
-from voteAction import voteAction
+
 import sys
 sys.path.append("..")
+from voteAction import voteAction
+
 import states
+import states.createQuestion
 #from states.createQuestion import createQuestion
+
+
 import pickle
 class createMultipleChoice(server_state):
     def __init__(self):
@@ -45,7 +50,7 @@ class createMultipleChoice(server_state):
                 return elec, user
             size = len(q)
             for i in range(size):
-                self.vAction.options.append(q["%d" % i])
+                self.vAction.options.append(q[i])
 
             elec.voteActions.append(self.vAction)
 
@@ -54,7 +59,7 @@ class createMultipleChoice(server_state):
     def execute(self, data, election, user):
         if self.vAction.instructions is not None:
             if len(self.vAction.options) >= 2:
-                return states.createQuestion()
+                return states.createQuestion.createQuestion()
         return None
 
     def exit(self, data, election, user):
