@@ -42,7 +42,4 @@ class chooseDate(server_state):
             return True
 
     def exit(self, data, election, user):
-        out = pickle.dumps(self.u)
-        self.conn.sendall(out)
-        self.conn = None
         return None

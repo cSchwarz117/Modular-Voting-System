@@ -29,7 +29,7 @@ class parser():
         return cred
 
     def date(self, data):
-        
+        return None
 
 
     def choice(self, data):

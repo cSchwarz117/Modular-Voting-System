@@ -7,7 +7,7 @@ sys.path.append("..")
 from server_data import server_data
 import pickle
 
-
+from messageInstance import instance
 class createElection(server_state):
 
     def __init__(self):
@@ -18,9 +18,10 @@ class createElection(server_state):
             "type": "char25",}
 
     def enter(self, data, conn, election, user):
-        self.conn = conn
-        out = pickle.dumps(self.instruction)
-        self.conn.sendall(out)
+        instance.send(self.instruction)
+       # self.conn = conn
+       # out = pickle.dumps(self.instruction)
+       # self.conn.sendall(out)
         return None
 
     def process(self, data, elec, user):

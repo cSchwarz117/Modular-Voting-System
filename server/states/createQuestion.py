@@ -4,6 +4,9 @@ from states.createRankedChoice import createRankedChoice
 from states.createChoiceW import createChoiceW
 import states
 import states.createMultipleChoice
+import states.adminOptions
+import datetime
+from messageInstance import instance
 from election import election
 import sys
 
@@ -20,6 +23,7 @@ class createQuestion(server_state):
         self.createMultipleChoice = False
         self.createRankedChoice = False
         self.createChoiceW = False
+        self.imFinished = False
         self.instruction = {
             "Instructions": "It looks like your <replace> election has <blank> questions and starts <date>: Would you like to add another question?",
             "type": "MultipleChoice",
@@ -40,9 +44,11 @@ class createQuestion(server_state):
         else:
             start = elec.date.strftime("on %Y-%m-%d %H:%M")
         ret["Instructions"] = ret["Instructions"].replace("<date>", start)
-        self.conn = conn
-        out = pickle.dumps(ret)
-        self.conn.sendall(out)
+       # self.conn = conn
+       # out = pickle.dumps(ret)
+
+       # self.conn.sendall(out)
+        instance.send(ret)
         return None
 
     def process(self, data, elec, user):
@@ -54,6 +60,10 @@ class createQuestion(server_state):
             self.createMultipleChoice = True
         if ans == "3":
             self.createChoiceW = True
+        if ans == "4":
+            if elec.start is None:
+                elec.start = datetime.datetime.now()
+            self.imFinished = True
         return (elec, user)
 
     def execute(self, data, election, user):
@@ -63,6 +73,8 @@ class createQuestion(server_state):
             return states.createMultipleChoice.createMultipleChoice()
         if self.createChoiceW:
             return createChoiceW()
+        if self.imFinished:
+            return states.adminOptions.adminOptions()
         return None
 
     def exit(self, data, election, user):

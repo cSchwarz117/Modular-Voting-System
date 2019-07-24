@@ -6,7 +6,7 @@ sys.path.append("..")
 from server_data import server_data
 from states.chooseDate import chooseDate
 from states.createQuestion import createQuestion
-
+from messageInstance import instance
 import pickle
 
 
@@ -26,9 +26,10 @@ class createDate(server_state):
     def enter(self, data, conn, elec, user):
         ret = self.instruction.copy()
         ret["Instructions"] = ret["Instructions"].replace("<replace>", elec.name)
-        self.conn = conn
-        out = pickle.dumps(ret)
-        self.conn.sendall(out)
+        instance.send(ret)
+       # self.conn = conn
+       # out = pickle.dumps(ret)
+       # self.conn.sendall(out)
         return None
 
     def process(self, data, elec, user):
