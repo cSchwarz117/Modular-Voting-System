@@ -1,5 +1,5 @@
 import sys
-
+import user
 class server_data(object):
     global users
     global admins
@@ -15,6 +15,13 @@ class server_data(object):
         if once is not None:
             return None
         once = 1
+        global userObjs
+        userObjs = {
+            "Jane": user.user(),
+            "Joe": user.user(),
+            "Fred": user.user(),
+            "Anne": user.user()
+        }
         global users
         users = {
             "Jane": "123",
@@ -65,6 +72,11 @@ class server_data(object):
     def get_users():
         global users
         return users
+
+    @staticmethod
+    def get_user_objs():
+        global userObjs
+        return userObjs
 
     @staticmethod
     def get_admins():

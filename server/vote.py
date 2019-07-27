@@ -3,6 +3,7 @@ class vote (object):
         #a list of rankings and choices
         self.votes = []
         self.userName = None
+        self.curIndex = 0
         return None
 
     def add_vote(self, v):
