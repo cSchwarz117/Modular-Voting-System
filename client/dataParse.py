@@ -14,11 +14,15 @@ class parser():
             return self.uFail(data)
         if data['type'] == 'StrArray':
             return self.StrArray(data)
+        if data['type'] == 'logoff':
+            print(data['Instructions'])
+            return True
         else:
             print('Data Type error')
             return
 
-        return
+
+
 
     def StrArray(self, data):
         print(data['Instructions'])

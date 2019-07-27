@@ -27,16 +27,18 @@ class menu_interface(message, parser):
             exit(0)
 
     def menuLoop(self):
-        opt = False
-        while opt is False:
-            opt = self.logIn()
+
         while True:
-            inp = self.typeCheck(opt)
-            self.send(inp)
-            print(inp)
-#            print("here1")
-            opt = self.recv()
-            print(opt)
+            opt = False
+            while opt is False:
+                opt = self.logIn()
+            while opt['type'] != 'logoff':
+                inp = self.typeCheck(opt)
+                self.send(inp)
+#               print(inp)
+#               print("here1")
+                opt = self.recv()
+ #              print(opt)
 
 
 
