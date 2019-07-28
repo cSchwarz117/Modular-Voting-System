@@ -1,8 +1,8 @@
-class choice(object):
+class writeIn(object):
     def __init__(self):
         ans = None
 
     def clone(self):
-        c = choice()
+        c = writeIn()
         c.ans = self.ans
         return c
