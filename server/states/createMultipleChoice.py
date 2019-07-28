@@ -25,9 +25,6 @@ class createMultipleChoice(server_state):
         self.vAction = voteAction()
         self.vAction.multipleChoice = True
         instance.send(self.instruction)
-       # self.conn = conn
-       # out = pickle.dumps(self.instruction)
-       # conn.sendall(out)
         return None
 
     def process(self, data, elec, user):

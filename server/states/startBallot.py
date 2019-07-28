@@ -3,6 +3,7 @@ import sys
 sys.path.append("..")
 from server_data import server_data
 import pickle
+from states.server_state import server_state
 
 class startBallot(server_state):
 

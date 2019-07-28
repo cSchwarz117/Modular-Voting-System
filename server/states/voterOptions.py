@@ -1,32 +1,37 @@
 from states.server_state import server_state
 import states
 import states.login_state
-import states.viewResults
 from server_data import server_data
 from states.createElection import createElection
 import sys
 sys.path.append("..")
 import pickle
+import states
+import states.vote_in_elec
+import states.reviewBallot
+import states.login_state
+import states.editBallot
+import vote
 
 from messageInstance import instance
-class adminOptions(server_state):
+class voterOptions(server_state):
 
     def __init__(self):
         self.ret = {}
         self.conn = None
-        self.adminOpts = {
-            "Instructions": "I see you are an admin! Welcome! Please choose from the following options",
+        self.voterOpts = {
+            "Instructions": "I see you are a voter! Welcome! Please choose from the following options",
             "type": "MultipleChoice",
-            "1": "Create Election",
-            "2": "Edit Election",
-            "3": "View Results",
+            "1": "Vote in election",
+            "2": "Review Ballot",
+            "3": "Edit Ballot",
             "4": "Log Off"}
 
     def enter(self, data, conn, election, user):
-        instance.send(self.adminOpts)
-        self.create_election = False
-        self.editElection = False
-        self.viewResults = False
+        instance.send(self.voterOpts)
+        self.vote_in_election = False
+        self.review_ballot = False
+        self.edit_ballot = False
         self.logOff = False
         return None
 
@@ -34,11 +39,12 @@ class adminOptions(server_state):
         dict = data
         ans = dict["ans"]
         if ans == "1":
-            self.create_election = True
+            user.ballot = vote.vote()
+            self.vote_in_election = True
         if ans == "2":
-            self.editElection = True
+            self.review_ballot = True
         if ans == "3":
-            self.viewResults = True
+            self.edit_ballot = True
         if ans == "4":
             logoff = {
                 "Instructions": "Logged off",
@@ -46,15 +52,17 @@ class adminOptions(server_state):
             instance.send(logoff)
             self.logOff = True
 
-        return (election, user)
+        return election, user
 
     def execute(self, data, election, user):
-        if self.create_election:
-            return createElection()
+        if self.vote_in_election:
+            return states.vote_in_elec.vote_in_elec()
         if self.logOff:
             return states.login_state.login_state()
-        if self.viewResults:
-            return states.viewResults.viewResults()
+        if self.review_ballot:
+            return states.reviewBallot.reviewBallot()
+        if self.edit_ballot:
+            return states.editBallot.editBallot()
         else:
             return None
 
