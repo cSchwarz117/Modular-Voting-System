@@ -1,11 +1,12 @@
-from messenger import message
+from messageInstance import instance
 from dataParse import parser
 
 
-class menu_interface(message, parser):
+class menu_interface(instance, parser):
 
     def __init__(self, sock):
         self.sock = sock
+        instance(sock)
 
     def logIn(self, user_input=""):
         print("*****Welcome to MVS*****")
@@ -20,7 +21,7 @@ class menu_interface(message, parser):
             pwd = input('Please enter your Password: ')
             cred = {"username": usr, "password": pwd}
             self.send(cred)
-            inst = self.recv()
+            inst = self.rec()
             return inst
 
         if user_input == "2":
@@ -36,8 +37,7 @@ class menu_interface(message, parser):
                 inp = self.typeCheck(opt)
                 self.send(inp)
 #               print(inp)
-#               print("here1")
-                opt = self.recv()
+                opt = self.rec()
  #              print(opt)
 
 
