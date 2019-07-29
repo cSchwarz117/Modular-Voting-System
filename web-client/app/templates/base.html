@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+{% if title %}
+      <title>{{ title }} - Web-Client</title>
+      {% else %}
+      <title>Modular Voting System</title>
+      {% endif %}
+    </head>
+    <body>
+        <div>MVS:
+        <a href="/index">Home</a></div>
+        <a href="/login">Login</a>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
 </html>
