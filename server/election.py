@@ -15,7 +15,6 @@ class election(server_state):
             return self.getResultMult(va, index)
 
     def getResultMult(self, voteAct, index):
-        dict = {}
         instruction = voteAct.instructions
 
         votes = []
@@ -36,5 +35,70 @@ class election(server_state):
             instruction += "\n" + results[i]
 
         return instruction
+
+    def getResultRank(self, voteAct, index):
+        instruction = voteAct.instructions
+
+        voters = []
+        for i in range(len(self.votes)):
+            voters.append(self.votes[i].clone())
+
+        highestIndex, highestScore = self.getHighest(voteAct, index, voters)
+
+        while highestScore < .5:
+            highestIndex, highestScore = self.getHighest(voteAct, index, voters)
+            lowestIndex = self.getLowest(voteAct, index, voters)
+            self.removeLowest(lowestIndex, index, voters)
+
+        return instruction + "\n" + voteAct.options[highestIndex]
+
+    def removeLowest(self, lowestIndex, index, voters):
+        for i in range(len(voters)):
+            s = "%d" % lowestIndex
+            voters[i].votes[index].ranking = voters[i].votes[index].ranking.replace(s, "")
+            voters[i].votes[index].ranking = voters[i].votes[index].ranking.replace(" ", "")
+            voters[i].votes[index].ranking = voters[i].votes[index].ranking.replace(",,", ",")
+        return voters
+
+    def getLowest(self, voteAct, index):
+        votes = []
+        for i in range(len(voteAct.options)):
+            votes.append(0)
+
+        for i in range(len(self.votes)):
+            ranking = self.votes[i].votes[index].rankings
+            r = ranking.split(",")
+            best = int(r[0])
+            votes[best] += 1
+
+        lowestIndex = 0
+        lowestScore = votes[lowestIndex]
+        for i in range(len(voteAct.options)):
+            if votes[i] < lowestScore:
+                lowestScore = votes[i]
+                lowestIndex = i
+
+        return lowestIndex
+
+    def getHighest(self, voteAct, index, voters):
+        votes = []
+        for i in range(len(voteAct.options)):
+            votes.append(0)
+
+        for i in range(len(voters)):
+            ranking = voters.votes[index].rankings
+            r = ranking.split(",")
+            best = int(r[0])
+            votes[best] += 1
+
+        highestIndex = 0
+        highestScore = votes[highestIndex]
+        for i in range(len(voteAct.options)):
+            if votes[i] > highestIndex:
+                highestScore = votes[i]
+                highestIndex = i
+
+        return highestIndex, float(highestScore)/float(len(voters))
+
 
 

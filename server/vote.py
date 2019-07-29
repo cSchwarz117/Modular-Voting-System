@@ -8,3 +8,13 @@ class vote (object):
 
     def add_vote(self, v):
         self.votes.append(v)
+
+    def clone(self):
+        v = vote()
+        v.userName = self.userName
+        v.curIndex = self.curIndex
+        v.votes = []
+        for i in range (len(self.votes)):
+            v.votes.append(self.votes[i].clone())
+        return v
+
