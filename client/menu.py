@@ -1,3 +1,5 @@
+import sys
+sys.path.append("..")
 from messageInstance import instance
 from dataParse import parser
 

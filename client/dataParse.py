@@ -3,6 +3,8 @@ class parser():
     def typeCheck(self, data):
         if data['type'] == 'MultipleChoice':
             return self.choice(data)
+        if data['type'] == 'RankedChoice':
+            return self.rank(data)
 
         if data['type'] == 'date':
             return self.date(data)
@@ -20,6 +22,31 @@ class parser():
         else:
             print('Data Type error')
             return
+
+
+    def rank(self, data):
+        del data['type']
+        print(data['Instructions'])
+        del data['Instructions']
+        for key, val in data.items():
+            print(key, ": ", val)
+        print("Ranked Choice voting: Of these options, which is your top choice?")
+        for key, val in data.items():
+            print(key, ": ", val)
+        select = input()
+        ret = select
+        del data[select]
+        index = 0
+        while len(data) > 0:
+            index += 1
+            print("Ranked Choice voting: Of these remaining options, which is your top choice?")
+            for key, val in data.items():
+                print(key, ": ", val)
+            select = input()
+            ret += "," + select
+            del data[select]
+
+        return {"ans": ret}
 
 
 

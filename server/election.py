@@ -15,6 +15,8 @@ class election(server_state):
             return self.getResultMult(va, index)
         if va.choiceAndWriteIn:
             return self.getResultMultOrWriteIn(va, index)
+        if va.rank:
+            return self.getResultRank(va, index)
 
     def getResultMultOrWriteIn(self, voteAct, index):
         instruction = voteAct.instructions
@@ -101,13 +103,13 @@ class election(server_state):
             voters[i].votes[index].ranking = voters[i].votes[index].ranking.replace(",,", ",")
         return voters
 
-    def getLowest(self, voteAct, index):
+    def getLowest(self, voteAct, index, voters):
         votes = []
         for i in range(len(voteAct.options)):
             votes.append(0)
 
         for i in range(len(self.votes)):
-            ranking = self.votes[i].votes[index].rankings
+            ranking = voters[i].votes[index].rankings
             r = ranking.split(",")
             best = int(r[0])
             votes[best] += 1
@@ -127,7 +129,7 @@ class election(server_state):
             votes.append(0)
 
         for i in range(len(voters)):
-            ranking = voters.votes[index].rankings
+            ranking = voters[i].votes[index].rankings
             r = ranking.split(",")
             best = int(r[0])
             votes[best] += 1
