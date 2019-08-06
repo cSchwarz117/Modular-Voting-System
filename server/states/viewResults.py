@@ -32,8 +32,8 @@ class viewResults(server_state):
 
     def process(self, data, elec, user):
 
-        if self.index < len(elec.voteActions) and data["ans"] == 1:
-            instructions = election.getResults(self.index)
+        if self.index < len(elec.voteActions) and data["ans"] == "1":
+            instructions = elec.getResults(self.index)
             ret = {}
             ret["Instructions"] = instructions
             ret["type"] = "MultipleChoice"

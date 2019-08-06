@@ -13,6 +13,47 @@ class election(server_state):
         va = self.voteActions[index]
         if va.multipleChoice:
             return self.getResultMult(va, index)
+        if va.choiceAndWriteIn:
+            return self.getResultMultOrWriteIn(va, index)
+
+    def getResultMultOrWriteIn(self, voteAct, index):
+        instruction = voteAct.instructions
+
+        votes = []
+        for i in range(len(voteAct.options)):
+            votes.append(0)
+
+        writeIns = {}
+        for i in range(len(self.votes)):
+            t = self.votes[i].votes[index].ans
+            if t.isdigit():
+                c = int(t)
+                votes[c] += 1
+            else:
+                found = False
+                for key, value in writeIns.items():
+                    if key == t:
+                        writeIns[key] += 1
+                        found = True
+                        break
+
+                if not found:
+                    writeIns[t] = 1
+
+        results = []
+        for i in range(len(voteAct.options)):
+            s = "%d" % votes[i]
+            results.append(voteAct.options[i] + ": " + s)
+
+        for key, value in writeIns.items():
+            s = "%d" % value
+            results.append(key + ": " + s)
+
+        for i in range(len(results)):
+            instruction += "\n" + results[i]
+
+        return instruction
+
 
     def getResultMult(self, voteAct, index):
         instruction = voteAct.instructions

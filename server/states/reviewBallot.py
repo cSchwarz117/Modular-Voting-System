@@ -39,10 +39,13 @@ class reviewBallot(server_state):
 
         if ans == "1" and len(elec.voteActions) > self.currentIndex and len(user.ballot.votes) > self.currentIndex:
             q = elec.voteActions[self.currentIndex].instructions
-            i = int(user.ballot.votes[self.currentIndex].ans)
-            q += "\n Your Answer: " + elec.voteActions[self.currentIndex].options[i]
+            ans = user.ballot.votes[self.currentIndex].ans
+            if ans.isdigit():
+                i = int(user.ballot.votes[self.currentIndex].ans)
+                ans = elec.voteActions[self.currentIndex].options[i]
+            q += "\n Your Answer: " + ans
             ret = self.genericInstructions.copy()
-            ret["Instructions"] = self.genericInstructions["Instructions"].replace("<review>", q)
+            ret["Instructions"] = ret["Instructions"].replace("<review>", q)
             instance.send(ret)
             self.currentIndex += 1
         else:
