@@ -1,5 +1,7 @@
 import socket
 #import pickle
+import sys
+sys.path.append('../')
 from menu import menu_interface
 
 
