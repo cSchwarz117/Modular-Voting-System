@@ -69,9 +69,40 @@ class server_data(object):
         return None
 
     @staticmethod
+    def loadVoterRolls(_users, _voters):
+        global users
+        global voters
+        global userObjs
+        users = _users
+        voters = _voters
+        for u in users:
+            if not u in userObjs:
+                userObjs[u] = user.user()
+
+    @staticmethod
+    def getVoterRolls():
+        global users
+        global voters
+        return users, voters
+
+    @staticmethod
+    def add_user(u, password):
+        global users
+        global voters
+        global userObjs
+        userObjs[u] = user.user()
+        users[u] = password
+        voters.append(u)
+
+    @staticmethod
     def get_users():
         global users
         return users
+
+    @staticmethod
+    def set_user_objs(objs):
+        global userObjs
+        userObjs = objs
 
     @staticmethod
     def get_user_objs():

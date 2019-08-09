@@ -9,6 +9,18 @@ class election(server_state):
         self.votes = []
 
 
+    def getVoteActions(self):
+        return self.voteActions
+
+    def setVoteActions(self, va):
+        self.voteActions = va
+
+    def getVotes(self):
+        return self.votes
+
+    def setVotes(self, v):
+        self.votes = v
+
     def getResults(self, index):
         va = self.voteActions[index]
         if va.multipleChoice:
