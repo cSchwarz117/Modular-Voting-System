@@ -31,8 +31,8 @@ class saveElection(server_state):
         z["userObjs"] = server_data.get_user_objs()
         f = data["ans"]
         cwd = os.getcwd()
-        f = cwd + f
-        afile = open(f)
+        f = cwd + "\\" + f
+        afile = open(f, 'ab')
         pickle.dump(z, afile)
         afile.close()
         return elec, user

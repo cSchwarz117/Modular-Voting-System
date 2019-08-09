@@ -25,11 +25,12 @@ class loadElection(server_state):
         return None
 
     def process(self, data, elec, user):
-
+        if elec == None:
+            elec = election()
         f = data["ans"]
         cwd = os.getcwd()
-        f = cwd + f
-        file2 = open(f)
+        f = cwd + "\\" + f
+        file2 = open(f, 'rb')
         new_d = pickle.load(file2)
         file2.close()
         elec.setVotes(new_d["votes"])
