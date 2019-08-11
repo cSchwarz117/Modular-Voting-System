@@ -6,7 +6,7 @@ class loginF(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
 
-        tk.Label(self, text="MVS - Login")
+        tk.Label(self, text="MVS - Login").grid(row=0, column=1)
 
         self.usr = tk.StringVar()
         self.pwd = tk.StringVar()

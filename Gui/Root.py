@@ -1,6 +1,7 @@
 import tkinter as tk
 from frames.login import loginF
 from frames.StartPage import start
+from frames.multiChoice import multiF
 from messageInstance import instance
 import socket
 
@@ -9,7 +10,8 @@ class root(tk.Tk, instance):
         tk.Tk.__init__(self)
         self.sock = sock
         self.instance = instance(sock)
-        self.geometry('300x300')
+        self.geometry('400x300')
+        self.title('Modular Voting System')
         self._frame = start(self)
         self._frame.pack()
  #       s = 'start'
@@ -22,7 +24,7 @@ class root(tk.Tk, instance):
         data = self.instance.rec()
         print(data)
         frame_class = self.typeCheck(data)
-        new_frame = frame_class(self)
+        new_frame = frame_class(self, data)
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
@@ -30,7 +32,7 @@ class root(tk.Tk, instance):
 
     def typeCheck(self, data):
         if data['type'] == 'MultipleChoice':
-            return start
+            return multiF
         if data['type'] == 'start':
             print('here')
             return start
