@@ -21,7 +21,7 @@ class root(tk.Tk, instance):
  #       self.switch_frame(data)
 
     def switch_frame(self, data):
- #       print(data)
+#        print(data)
         self.instance.send(data)
         data = self.instance.rec()
 #        print(data)

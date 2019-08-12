@@ -28,7 +28,7 @@ class StrArrayF(tk.Frame):
             self.ans[i] = (tk.StringVar())
             self.labels.append(tk.Label(self, text=i).grid(row=i+5, column=0))
             self.entries.append(tk.Entry(self, textvariable=self.ans[i]).grid(row=i+5, column=1))
-        self.Ok2_button =  tk.Button(self, text='ok', command=lambda: self.on_button2()).grid(row=ch, column=1)
+        self.Ok2_button = tk.Button(self, text='ok', command=lambda: self.on_button2()).grid(row=ch, column=1)
 
     def on_button2(self):
         cred = {}
@@ -37,7 +37,7 @@ class StrArrayF(tk.Frame):
             entry = self.ans[x].get()
             print(entry)
             cred[x] = entry
-            self.parent.switch_frame(cred)
+        self.parent.switch_frame(cred)
 #    def StrArray(self, data):
 #        print(data['Instructions'])
 #        x = input('How many options do you want?')
