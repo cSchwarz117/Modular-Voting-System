@@ -2,6 +2,8 @@ import tkinter as tk
 from frames.login import loginF
 from frames.StartPage import start
 from frames.multiChoice import multiF
+from frames.char25 import char25F
+from frames.StrArray import StrArrayF
 from messageInstance import instance
 import socket
 
@@ -19,11 +21,16 @@ class root(tk.Tk, instance):
  #       self.switch_frame(data)
 
     def switch_frame(self, data):
-        print(data)
+ #       print(data)
         self.instance.send(data)
         data = self.instance.rec()
-        print(data)
+#        print(data)
         frame_class = self.typeCheck(data)
+        if frame_class == True:
+            if self._frame is not None:
+                self._frame.destroy()
+                self._frame = start(self)
+            self._frame.pack()
         new_frame = frame_class(self, data)
         if self._frame is not None:
             self._frame.destroy()
@@ -34,7 +41,7 @@ class root(tk.Tk, instance):
         if data['type'] == 'MultipleChoice':
             return multiF
         if data['type'] == 'start':
-            print('here')
+ #           print('here')
             return start
         if data['type'] == 'RankedChoice':
             return
@@ -42,13 +49,13 @@ class root(tk.Tk, instance):
         if data['type'] == 'date':
             return
         if data['type'] == 'char25':
-            return
+            return char25F
         if data['type'] == 'PasswordFail':
             return
         if data['type'] == 'UsernameFail':
             return
         if data['type'] == 'StrArray':
-            return
+            return StrArrayF
         if data['type'] == 'logoff':
             return True
         else:

@@ -20,7 +20,7 @@ class multiF(tk.Frame):
 
     def on_click(self, choice):
         cred = {'ans': choice}
-        print(cred)
+#        print(cred)
         self.parent.switch_frame(cred)
 
         pack = {'ans': '1'}
